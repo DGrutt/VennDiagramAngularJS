@@ -1,0 +1,126 @@
+<!doctype html>
+<html ng-app="namesList">
+  <head>
+    <meta charset="utf-8">
+    <title>AngularJS Venn Diagram</title>
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  
+  <body>
+    <div ng-controller="TestCtrl">
+        
+      <textarea name="A" cols="100" rows="20" ng-model="title" placeholder="Enter words for Box A"></textarea>
+	  <textarea name="B" cols="100" rows="20" ng-model="title2" placeholder="Enter words for Box B"></textarea>
+		
+
+      <pre>
+        
+      Results:      
+      
+
+      Words in Both:
+                          
+      {{both}}          
+                          
+      Words in First Box Only:
+                          
+      {{title|split}}
+                          
+      Words in Second Box Only:
+                          
+      {{title2|split}}
+                          
+      </pre>
+      		
+      <textarea name="B" cols="100" rows="20" ng-model="title3" placeholder="Enter words to be made uppercase"></textarea>	
+      <ul>
+      {{title3 | uppercase}}
+      </ul>		
+      		
+      <textarea name="B" cols="100" rows="20" ng-model="title4" placeholder="Enter words to be made lowercase"></textarea>	
+      <ul>
+      {{title4 | lowercase}}
+      </ul>			
+      <br>
+	  
+	  <textarea name="B" cols="100" rows="20" ng-model="title5" placeholder="Enter transcript to be reformatted"></textarea>	
+      <ul>
+	    alphabetical sort test
+	   {{title5 | orderBy:'title5' }} 
+	  <br>
+      {{title5 | split }} 
+	  <br>
+	  {{title5 | test}}
+	  
+	  
+	  <!-- need to pull numbers out of this array -->
+	  
+	  <!-- sort test -->
+	  <br>
+	
+	  
+      </ul>			
+      <br>
+
+    </div>
+    
+    <!-- Vendor libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	
+
+    <script>
+    'use strict';
+    angular.module('namesList', [])
+      .filter('split', function() {	  
+		    return function(input) {
+			
+            return input.split(" ");
+        };
+      })
+	  
+	    .filter('test', function() {	  
+		 //   this filter checks if a string is a number but need to iterate over the whole array and get the first and last numbers
+			return function isNumeric(num){
+		    
+			return !isNaN(num);
+	
+        };
+      })
+
+
+
+    
+    
+    
+    </script>
+	
+	<script>
+	//test if strings are numbers
+	'use strict';
+	function isNumeric(num){
+		return !isNaN(num)
+	}
+	</script>
+
+    <script>
+    'use strict';
+    (function(){
+      function TestCtrl($scope) {
+        $scope.title = "";
+    	$scope.title2 = "";
+    	$scope.title3 = "";
+    	$scope.title4 = "";
+		$scope.title5 = "";
+		$scope.both = [];
+      }
+      angular.module('namesList')
+        .controller('TestCtrl', TestCtrl);
+        
+    })()
+    </script> 
+
+
+
+  </body>
+</html>
