@@ -44,22 +44,26 @@
       </ul>			
       <br>
 	  
-	  <textarea name="B" cols="100" rows="20" ng-model="title5" placeholder="Enter transcript to be reformatted"></textarea>	
+	  <textarea name="B" cols="100" rows="20" ng-model="title5" placeholder="Enter word to be put in alphabetical order"></textarea>	
       <ul>
-	    alphabetical sort test
-	   {{title5 | orderBy:'title5' }} 
+	  Alphabetical order:
 	  <br>
-      {{title5 | split }} 
+	  {{title5 | split | orderBy:'toString()' }} 
 	  <br>
-	  {{title5 | test}}
+	 
 	  
 	  
 	  <!-- need to pull numbers out of this array -->
 	  
 	  <!-- sort test -->
 	  <br>
-	
-	  
+	   <textarea name="B" cols="100" rows="20" ng-model="title6" placeholder="Enter transcript to be reformatted"></textarea>	
+      <ul>
+	  sort test with repeat:
+	  <br>
+      {{title6 | split }} 
+	  <br>
+	  {{title6 | test}}	  
       </ul>			
       <br>
 
@@ -84,17 +88,11 @@
 			return function isNumeric(num){
 		    
 			return !isNaN(num);
-	
         };
       })
-
-
-
-    
-    
-    
     </script>
-	
+
+	<!--
 	<script>
 	//test if strings are numbers
 	'use strict';
@@ -102,7 +100,9 @@
 		return !isNaN(num)
 	}
 	</script>
+	-->
 
+	
     <script>
     'use strict';
     (function(){
@@ -112,6 +112,7 @@
     	$scope.title3 = "";
     	$scope.title4 = "";
 		$scope.title5 = "";
+		$scope.title6 = "";
 		$scope.both = [];
       }
       angular.module('namesList')
