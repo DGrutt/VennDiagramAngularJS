@@ -21,7 +21,7 @@
 
       Words in Both:
                           
-      {{both}}          
+      {{both | findMatches: title: title2 }}     
                           
       Words in First Box Only:
                           
@@ -45,26 +45,25 @@
       <br>
 	  
 	  <textarea name="B" cols="100" rows="20" ng-model="title5" placeholder="Enter word to be put in alphabetical order"></textarea>	
-      <ul>
+	  <br>
 	  Alphabetical order:
 	  <br>
 	  {{title5 | split | orderBy:'toString()' }} 
 	  <br>
 	 
 	  
-	  
 	  <!-- need to pull numbers out of this array -->
 	  
 	  <!-- sort test -->
-	  <br>
-	   <textarea name="B" cols="100" rows="20" ng-model="title6" placeholder="Enter transcript to be reformatted"></textarea>	
-      <ul>
+	 
+	  <textarea name="B" cols="100" rows="20" ng-model="title6" placeholder="Enter transcript to be reformatted"></textarea>	
+      <br>
 	  sort test with repeat:
 	  <br>
       {{title6 | split }} 
 	  <br>
 	  {{title6 | test}}	  
-      </ul>			
+     		
       <br>
 
     </div>
@@ -90,6 +89,14 @@
 			return !isNaN(num);
         };
       })
+	  
+	  	 .filter('findMatches', function() {	  
+		 //   this filter finds matching strings
+			return function isMatch(title, title2){
+		    //matches = []
+			return 'matches';
+        };
+      })
     </script>
 
 	<!--
@@ -113,7 +120,7 @@
     	$scope.title4 = "";
 		$scope.title5 = "";
 		$scope.title6 = "";
-		$scope.both = [];
+		$scope.both = "test";
       }
       angular.module('namesList')
         .controller('TestCtrl', TestCtrl);
