@@ -10,28 +10,7 @@
   <body>
     <div ng-controller="TestCtrl">
         
-      <textarea name="A" cols="100" rows="20" ng-model="title" placeholder="Enter words for Box A"></textarea>
-	  <textarea name="B" cols="100" rows="20" ng-model="title2" placeholder="Enter words for Box B"></textarea>
-		
 
-      <pre>
-        
-      Results:      
-      
-
-      Words in Both:
-                          
-      {{both | findMatches: title: title2 }}     
-                          
-      Words in First Box Only:
-                          
-      {{title|split}}
-                          
-      Words in Second Box Only:
-                          
-      {{title2|split}}
-                          
-      </pre>
       		
       <textarea name="B" cols="100" rows="20" ng-model="title3" placeholder="Enter words to be made uppercase"></textarea>	
       <ul>
@@ -52,10 +31,12 @@
 	  <br>
 	 
 	  
+	  
+	  
 	  <!-- need to pull numbers out of this array -->
 	  
 	  <!-- sort test -->
-	 
+	 <!--
 	  <textarea name="B" cols="100" rows="20" ng-model="title6" placeholder="Enter transcript to be reformatted"></textarea>	
       <br>
 	  sort test with repeat:
@@ -64,8 +45,34 @@
 	  <br>
 	  {{title6 | test}}	  
      		
-      <br>
+      <br>-->
 
+	  
+	  
+	        <textarea name="A" cols="100" rows="20" ng-model="title" placeholder="Enter words for Box A"></textarea>
+	  <textarea name="B" cols="100" rows="20" ng-model="title2" placeholder="Enter words for Box B"></textarea>
+		
+
+      <pre>
+
+    <!--  Results:      
+		
+		
+
+      Words in Both:
+                          
+      {{matches | findMatches: title: title2 }}     
+	  
+    -->                      
+      Words in First Box:
+                          
+      {{title|split}}
+                          
+      Words in Second Box:
+                          
+      {{title2|split}}
+                          
+      </pre>
     </div>
     
     <!-- Vendor libraries -->
@@ -90,18 +97,22 @@
         };
       })
 	  
-	  	 .filter('findMatches', function() {	  
-		 //   this filter finds matching strings
+
 			
-			return function isMatch(title, title2){
-			var matches = ["test"];
-			//for (i = 0; i < title.length; i++) { 
-			//matches.push("test");
-			//}
-			return matches.toString();
-		
-        };
-      })
+	  .filter('findMatches', function() {   
+         return function isMatch(title, title2){
+            var matches = [];
+            for (i = 0; i < title.length; i++) { 
+              if(title2.indexOf(title[i]) > -1){
+                matches.push(title[i]);
+              }
+            }
+             return matches;
+         }
+})
+	  
+	  
+	  
     </script>
 
 	<!--
@@ -125,7 +136,7 @@
     	$scope.title4 = "";
 		$scope.title5 = "";
 		$scope.title6 = "";
-		$scope.both = "test";
+		$scope.matches = "test";
       }
       angular.module('namesList')
         .controller('TestCtrl', TestCtrl);
