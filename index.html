@@ -4,8 +4,17 @@
 <head>
   <meta charset="utf-8">
   <title>AngularJS Venn Diagram</title>
-  <link href="css/style.css" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+		
 </head>
 
 <body>
@@ -15,9 +24,9 @@
     <textarea name="A" cols="100" rows="20" ng-model="title" placeholder="Enter words for Box A"></textarea>
     <textarea name="B" cols="100" rows="20" ng-model="title2" placeholder="Enter words for Box B"></textarea>
 
-
-    <pre>
-
+	<div class="container-fluid">
+    
+	  <pre>
       Results:      
 		
 		
@@ -34,9 +43,11 @@
       Words in Second Box:
                           
       {{title2|split|unique}}
-                          
-      </pre>
       
+	  </pre>	  
+     
+      </div>
+	  
       <textarea name="B" cols="100" rows="20" ng-model="title3" placeholder="Enter words to be made uppercase"></textarea>	
       <ul>
       {{title3 | uppercase}}
@@ -68,7 +79,13 @@
 	  {{title6 | test}}	  
      		
       <br>
-  
+		
+	  <textarea name="B" cols="100" rows="20" ng-model="title7" placeholder="Enter words to be put in alphabetical order"></textarea>	
+	  <br>
+	  Begins with:
+	  <br>
+	  {{title7}} 
+	  <br>
       
       
   </div>
@@ -182,7 +199,12 @@
         $scope.title4 = "";
         $scope.title5 = "";
         $scope.title6 = "";
+		$scope.title7 = "";
         $scope.matches = "test";
+		  $scope.startsWith = function (actual, expected) {
+    var lowerStr = (actual + "").toLowerCase();
+    return lowerStr.indexOf(expected.toLowerCase()) === 0;
+  }
       }
       angular.module('namesList')
         .controller('TestCtrl', TestCtrl);
