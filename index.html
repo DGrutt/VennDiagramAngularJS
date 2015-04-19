@@ -1,17 +1,42 @@
 <!doctype html>
 <html ng-app="namesList">
-  <head>
-    <meta charset="utf-8">
-    <title>AngularJS Venn Diagram</title>
-    <link href="css/style.css" rel="stylesheet">
 
-  </head>
-  
-  <body>
-    <div ng-controller="TestCtrl">
-        
+<head>
+  <meta charset="utf-8">
+  <title>AngularJS Venn Diagram</title>
+  <link href="css/style.css" rel="stylesheet">
 
-      		
+</head>
+
+<body>
+  <div ng-controller="TestCtrl">
+
+
+    <textarea name="A" cols="100" rows="20" ng-model="title" placeholder="Enter words for Box A"></textarea>
+    <textarea name="B" cols="100" rows="20" ng-model="title2" placeholder="Enter words for Box B"></textarea>
+
+
+    <pre>
+
+      Results:      
+		
+		
+
+      Words in Both:
+                          
+      {{matches | findMatches: title :title2|unique}}     
+	  
+                       
+      Words in First Box:
+                          
+      {{title|split|unique}}
+                          
+      Words in Second Box:
+                          
+      {{title2|split|unique}}
+                          
+      </pre>
+      
       <textarea name="B" cols="100" rows="20" ng-model="title3" placeholder="Enter words to be made uppercase"></textarea>	
       <ul>
       {{title3 | uppercase}}
@@ -23,20 +48,17 @@
       </ul>			
       <br>
 	  
-	  <textarea name="B" cols="100" rows="20" ng-model="title5" placeholder="Enter word to be put in alphabetical order"></textarea>	
+	  <textarea name="B" cols="100" rows="20" ng-model="title5" placeholder="Enter words to be put in alphabetical order"></textarea>	
 	  <br>
 	  Alphabetical order:
 	  <br>
 	  {{title5 | split | orderBy:'toString()' }} 
 	  <br>
 	 
-	  
-	  
-	  
-	  <!-- need to pull numbers out of this array -->
+    	  <!-- need to pull numbers out of this array -->
 	  
 	  <!-- sort test -->
-	 <!--
+	
 	  <textarea name="B" cols="100" rows="20" ng-model="title6" placeholder="Enter transcript to be reformatted"></textarea>	
       <br>
 	  sort test with repeat:
@@ -45,106 +67,131 @@
 	  <br>
 	  {{title6 | test}}	  
      		
-      <br>-->
+      <br>
+  
+      
+      
+  </div>
 
-	  
-	  
-	        <textarea name="A" cols="100" rows="20" ng-model="title" placeholder="Enter words for Box A"></textarea>
-	  <textarea name="B" cols="100" rows="20" ng-model="title2" placeholder="Enter words for Box B"></textarea>
-		
+  <!-- Vendor libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 
-      <pre>
 
-    <!--  Results:      
-		
-		
-
-      Words in Both:
-                          
-      {{matches | findMatches: title: title2 }}     
-	  
-    -->                      
-      Words in First Box:
-                          
-      {{title|split}}
-                          
-      Words in Second Box:
-                          
-      {{title2|split}}
-                          
-      </pre>
-    </div>
-    
-    <!-- Vendor libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-	
-
-    <script>
+  <script>
     'use strict';
     angular.module('namesList', [])
-      .filter('split', function() {	  
-		    return function(input) {
-			
-            return input.split(" ");
+      .filter('split', function() {
+        return function(input) {
+
+          return input.split(" ");
         };
       })
-	  
-	    .filter('test', function() {	  
+
+    .filter('test', function() {	  
 		 //   this filter checks if a string is a number but need to iterate over the whole array and get the first and last numbers
 			return function isNumeric(num){
 		    
 			return !isNaN(num);
         };
       })
-	  
+	   
+    .filter('findMatches', function() {
+      return function isMatch(matches, title, title2) {
+        var len1, len2, i, j, match;
+        title=title.split(" ")
+        title2=title2.split(" ")
+          // Arrays only
+        if (!Array.isArray(title) || !Array.isArray(title2)) { return ["emp"]; }
+         // Since the container will always be filled with matches
+        matches = [];
+        
+          // Cache .length before loops.
+        len1 = title.length;
+        len2 = title2.length;
+        
+          // Search
+      for(i = 0; i < len1; i+=1) {
+      match = title[i];
+      for(j = 0; j < len2; j+=1) {
+      // Add match to list, no soft checking.
+      if(match === title2[j]) { matches.push(match); }
+      }
+    }
+     
 
-			
-	  .filter('findMatches', function() {   
-         return function isMatch(title, title2){
-            var matches = [];
-            for (i = 0; i < title.length; i++) { 
-              if(title2.indexOf(title[i]) > -1){
-                matches.push(title[i]);
-              }
-            }
-             return matches;
-         }
-})
-	  
-	  
-	  
-    </script>
+        
+      return matches;
+      }
+    })
+    
+    .filter('unique', function () {
 
-	<!--
-	<script>
-	//test if strings are numbers
-	'use strict';
-	function isNumeric(num){
-		return !isNaN(num)
-	}
-	</script>
-	-->
+  return function (items, filterOn) {
 
-	
-    <script>
+    if (filterOn === false) {
+      return items;
+    }
+
+    if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
+      var hashCheck = {}, newItems = [];
+
+      var extractValueToCompare = function (item) {
+        if (angular.isObject(item) && angular.isString(filterOn)) {
+          return item[filterOn];
+        } else {
+          return item;
+        }
+      };
+
+      angular.forEach(items, function (item) {
+        var valueToCheck, isDuplicate = false;
+
+        for (var i = 0; i < newItems.length; i++) {
+          if (angular.equals(extractValueToCompare(newItems[i]), extractValueToCompare(item))) {
+            isDuplicate = true;
+            break;
+          }
+        }
+        if (!isDuplicate) {
+          newItems.push(item);
+        }
+
+      });
+      items = newItems;
+    }
+    return items;
+  };
+});
+
+
+  </script>
+  
+
+  
+  
+
+
+
+  <script>
     'use strict';
-    (function(){
+    (function() {
       function TestCtrl($scope) {
         $scope.title = "";
-    	$scope.title2 = "";
-    	$scope.title3 = "";
-    	$scope.title4 = "";
-		$scope.title5 = "";
-		$scope.title6 = "";
-		$scope.matches = "test";
+        $scope.title2 = "";
+        $scope.title3 = "";
+        $scope.title4 = "";
+        $scope.title5 = "";
+        $scope.title6 = "";
+        $scope.matches = "test";
       }
       angular.module('namesList')
         .controller('TestCtrl', TestCtrl);
-        
+
     })()
-    </script> 
+  </script>
 
 
 
-  </body>
+</body>
+
 </html>
