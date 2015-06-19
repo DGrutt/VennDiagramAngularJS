@@ -22,8 +22,7 @@
 
 
     <textarea name="A" cols="100" rows="20" ng-model="title" placeholder="Enter words for Box A"></textarea>
-    <textarea name="B" cols="100" rows="20" ng-model="title2" placeholder="Enter words for Box B"></textarea>
-
+    <textarea name="B" cols="100" rows="20" ng-model="title2" placeholder="Enter words for Box B"></textarea> 
 	<div class="container-fluid">
     
 	  <pre>
@@ -113,6 +112,20 @@
         };
       })
 	  
+	 .filter('showNum', function() {	  
+//   this filter is not complete but it will return only numbers from an array
+		return function isNumeric(num){
+		var numbers, i, len;
+		numbers = [];
+		len = title.length;
+	//	for(i=0; i<len; i+=1){
+	//		if !isNAN(title[i]) {numbers.push(title[i]);} 
+		
+		    //nonNumbers = [];
+			//return nonNumbers;
+	//	return numbers;
+        };
+      })
 	   
 /**
  * Description:
@@ -215,6 +228,7 @@
         $scope.title6 = "";
 		$scope.title7 = "";
         $scope.matches = "test";
+		$scope.numbers = "test";
 		  $scope.startsWith = function (actual, expected) {
     var lowerStr = (actual + "").toLowerCase();
     return lowerStr.indexOf(expected.toLowerCase()) === 0;
@@ -226,6 +240,7 @@
     })()
   </script>
 
+  ¶
 
 
 </body>
