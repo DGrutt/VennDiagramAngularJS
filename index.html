@@ -19,6 +19,19 @@
 
 <body>
   <div ng-controller="TestCtrl">
+  
+  
+	  <textarea name="B" cols="100" rows="20" ng-model="title6" placeholder="Enter transcript to be reformatted"></textarea>	
+      <br>
+	  <div class="container-fluid">
+	  Reformatted Transcript:
+	  <br>
+      "{{title6|showWord|makeString|split|makeString|showWord|makeString}}" (XXXXX Tr.) at xx:xx -xx:xx. 
+	  <br>
+	  {{title6 | split |makeString |showNum }}
+	   </div>
+     		
+      <br>
 
 
     <textarea name="A" cols="100" rows="20" ng-model="title" placeholder="Enter words for Box A"></textarea>
@@ -69,21 +82,12 @@
 	  
 	  <!-- sort test -->
 	
-	  <textarea name="B" cols="100" rows="20" ng-model="title6" placeholder="Enter transcript to be reformatted"></textarea>	
-      <br>
-	  sort test with repeat:
-	  <br>
-      {{title6 | split }} 
-	  <br>
-	  {{title6 | test}}	  
-     		
-      <br>
 		
-	  <textarea name="B" cols="100" rows="20" ng-model="title7" placeholder="Enter words to be put in alphabetical order"></textarea>	
+	  <textarea name="B" cols="100" rows="20" ng-model="title7" placeholder="Enter words to find by beginning letters"></textarea>	
 	  <br>
 	  Begins with:
 	  <br>
-	  {{title7}} 
+	  {{title7|showNum}} 
 	  <br>
       
       
@@ -98,8 +102,7 @@
     angular.module('namesList', [])
       .filter('split', function() {
         return function(input) {
-
-          return input.split(" ");
+          return input.replace(/\n/g, ' ').split(" ");
         };
       })
 
@@ -112,21 +115,70 @@
         };
       })
 	  
-	 .filter('showNum', function() {	  
+//	 .filter('showNum', function() {	  
 //   this filter is not complete but it will return only numbers from an array
-		return function isNumeric(num){
-		var numbers, i, len;
-		numbers = [];
-		len = title.length;
-	//	for(i=0; i<len; i+=1){
-	//		if !isNAN(title[i]) {numbers.push(title[i]);} 
+//		return function isNumeric(title){
+//		var numbers, i, len, numberToAdd;
+//		numbers = [];
+//		title=title.split(" ")
+//		len = title.length;
 		
-		    //nonNumbers = [];
-			//return nonNumbers;
-	//	return numbers;
+//		for(i=0; i<len; i+=1){
+//			numberToAdd = title[i];
+//			if(!isNAN(numberToAdd)===False); 	{numbers.push(numberToAdd);} 
+//		return numbers;
+//          };
+		
+//      })
+
+.filter('showNum', function() {
+  return function(input) {
+
+    if (!input)
+    {
+      return [];
+    }
+
+    return input
+      .split(' ')
+      .filter(function(item){
+        return item && !isNaN(item);
+      })
+      .map(function(item){
+        return parseInt(item);
+      })
+    
+  };
+})
+
+
+.filter('showWord', function() {
+  return function(input) {
+
+    if (!input)
+    {
+      return [];
+    }
+
+    return input
+      .split(' ')
+      .filter(function(item){
+        return item && isNaN(item);
+      })
+      .map(function(item){
+        return(item);
+      })
+    
+  };
+})
+
+	  
+	.filter('makeString', function() {	  
+//   this filter turns an array into a string
+	return function intoString(titlex){
+			return titlex.join(" ");
         };
       })
-	   
 /**
  * Description:
  *     removes white space from text. useful for html values that cannot have spaces
@@ -211,7 +263,7 @@
   </script>
   
 
-  
+
   
 
 
@@ -239,6 +291,12 @@
 
     })()
   </script>
+  
+    <script>
+//  		$scope.$watch('model.title6', function(){
+//  $scope.model.title6 = $scope.model.title6.replace(/\n/g, '');
+//})
+</script>
 
   ¶
 
